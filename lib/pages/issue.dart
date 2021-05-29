@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class IssuePage extends StatelessWidget {
+class IssuePage extends StatefulWidget {
+  @override
+  _IssuePageState createState() => _IssuePageState();
+}
+
+class _IssuePageState extends State<IssuePage> {
   final List issueList = [
     {
       "title": "Include additional log fields #1",
@@ -14,7 +19,10 @@ class IssuePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return RefreshIndicator(
+      onRefresh: () {
+        return Future.delayed(Duration(seconds: 1));
+      },
       child: ListView.separated(
         itemCount: issueList.length,
         itemBuilder: (BuildContext context, int index) {
