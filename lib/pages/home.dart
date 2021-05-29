@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gitme/components/drawer_tile.dart';
 import 'package:gitme/pages/activity.dart';
 import 'package:gitme/pages/issue.dart';
 import 'package:gitme/pages/repo.dart';
+import 'package:gitme/pages/search.dart';
 
 // 主頁面
 class MainPage extends StatelessWidget {
@@ -24,7 +26,12 @@ class MainPage extends StatelessWidget {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: GitmeSearchDelegate(),
+                );
+              },
             )
           ],
         ),
@@ -40,15 +47,46 @@ class MainPage extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              DrawerHeader(
-                child: Text("Bobson Lin"),
+              UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,
                 ),
+                accountName: Text("Jie"),
+                accountEmail: Text("test@mail.com"),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    "https://placekitten.com/200/300",
+                  ),
+                ),
+                otherAccountsPictures: <Widget>[
+                  Icon(Icons.edit, color: Colors.white),
+                ],
               ),
-              ListTile(
-                title: Text("Sign out"),
-                onTap: () async {
+              DrawerTile(
+                icon: Icon(Icons.trending_up),
+                text: "Trending",
+                onPressed: () {
+                  print("Head to Trending Page");
+                },
+              ),
+              DrawerTile(
+                icon: Icon(Icons.settings),
+                text: "Setting",
+                onPressed: () {
+                  print("Head to Setting Page");
+                },
+              ),
+              DrawerTile(
+                icon: Icon(Icons.info),
+                text: "About",
+                onPressed: () {
+                  print("Head to About Page");
+                },
+              ),
+              DrawerTile(
+                icon: Icon(Icons.power_settings_new),
+                text: "Sign out",
+                onPressed: () async {
                   await showDialog(
                     context: context,
                     barrierDismissible: false,
