@@ -15,6 +15,10 @@ class Gitme extends StatelessWidget {
       title: "Gitme",
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.blueGrey,
+          textTheme: ButtonTextTheme.primary,
+        ),
       ),
       routes: {
         GitmeRoutes.login: (context) => LoginPage(),

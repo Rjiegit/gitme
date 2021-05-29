@@ -15,13 +15,13 @@ class DrawerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Row(
-        children: <Widget>[
-          icon,
-          SizedBox(width: 24.0),
-          Text(text),
-        ],
-      ),
-    );
+        title: Row(
+          children: <Widget>[
+            icon,
+            SizedBox(width: 24.0),
+            Text(text),
+          ],
+        ),
+        onTap: () => onPressed());
   }
 }

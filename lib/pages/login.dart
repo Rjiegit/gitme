@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
       backgroundColor: Colors.black87,
+      textStyle: Theme.of(context).accentTextTheme.subtitle1!,
       child: Builder(
         builder: (context) => Scaffold(
           appBar: AppBar(
@@ -29,11 +37,21 @@ class LoginPage extends StatelessWidget {
                   padding:
                       EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                   child: TextFormField(
-                    decoration: const InputDecoration(
+                    obscureText: _obscureText,
+                    decoration: InputDecoration(
                       prefixIcon: Icon(Icons.lock),
-                      suffixIcon: Icon(Icons.remove_red_eye),
+                      suffixIcon: IconButton(
+                        icon: _obscureText
+                            ? Icon(Icons.visibility_off)
+                            : Icon(Icons.visibility),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      ),
                       labelText: "Password *",
-                      hintText: "Your Github account password or ...",
+                      hintText: "Your Github account password",
                     ),
                   ),
                 ),
@@ -43,7 +61,7 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 48.0,
                   height: 48.0,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     child: Text("Login"),
                     onPressed: () {
                       final progress = ProgressHUD.of(context);

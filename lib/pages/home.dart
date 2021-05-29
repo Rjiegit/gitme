@@ -103,11 +103,11 @@ class MainPage extends StatelessWidget {
                     builder: (context) => AlertDialog(
                       content: Text("Are you sure to exit current account."),
                       actions: <Widget>[
-                        FlatButton(
+                        TextButton(
                           child: Text("Cancel"),
                           onPressed: () => Navigator.pop(context),
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Text("OK"),
                           onPressed: () => Navigator.pushNamedAndRemoveUntil(
                               context, "/login", ModalRoute.withName('/')),
