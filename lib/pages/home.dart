@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gitme/components/circle_avatar_button.dart';
 import 'package:gitme/components/drawer_tile.dart';
 import 'package:gitme/pages/activity.dart';
 import 'package:gitme/pages/issue.dart';
@@ -7,13 +8,22 @@ import 'package:gitme/pages/search.dart';
 
 // 主頁面
 class MainPage extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           titleSpacing: 0.0,
+          leading: CircleAvatarButton(
+            avatarImage: NetworkImage(
+              "https://placekitten.com/200/300",
+            ),
+            onPressed: () => _scaffoldKey.currentState!.openDrawer(),
+          ),
           title: TabBar(
             labelPadding: EdgeInsets.zero,
             tabs: <Widget>[
