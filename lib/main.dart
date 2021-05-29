@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gitme/pages/home.dart';
 import "package:gitme/pages/login.dart";
+import 'package:gitme/pages/profile/profile.dart';
 import 'package:gitme/routes.dart';
 
 void main() {
@@ -22,7 +23,8 @@ class Gitme extends StatelessWidget {
       ),
       routes: {
         GitmeRoutes.login: (context) => LoginPage(),
-        GitmeRoutes.home: (context) => MainPage()
+        GitmeRoutes.home: (context) => MainPage(),
+        GitmeRoutes.profile: (context) => ProfilePage(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
