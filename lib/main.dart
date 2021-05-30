@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gitme/pages/home.dart';
 import "package:gitme/pages/login.dart";
 import 'package:gitme/pages/profile/profile.dart';
+import 'package:gitme/pages/setting/setting.dart';
 import 'package:gitme/pages/trending/trending.dart';
 import 'package:gitme/routes.dart';
+
+import 'pages/setting/setting_language.dart';
 
 void main() {
   runApp(Gitme());
@@ -27,6 +30,8 @@ class Gitme extends StatelessWidget {
         GitmeRoutes.home: (context) => MainPage(),
         GitmeRoutes.profile: (context) => ProfilePage(),
         GitmeRoutes.trending: (context) => TrendingPage(),
+        GitmeRoutes.setting: (context) => SettingPage(),
+        GitmeRoutes.settingLanguage: (context) => SettingLanguagePage(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
