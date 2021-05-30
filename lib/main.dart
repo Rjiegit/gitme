@@ -6,6 +6,7 @@ import 'package:gitme/pages/setting/setting.dart';
 import 'package:gitme/pages/trending/trending.dart';
 import 'package:gitme/routes.dart';
 
+import 'pages/about/about.dart';
 import 'pages/setting/setting_language.dart';
 
 void main() {
@@ -32,6 +33,7 @@ class Gitme extends StatelessWidget {
         GitmeRoutes.trending: (context) => TrendingPage(),
         GitmeRoutes.setting: (context) => SettingPage(),
         GitmeRoutes.settingLanguage: (context) => SettingLanguagePage(),
+        GitmeRoutes.about: (context) => AboutPage(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
