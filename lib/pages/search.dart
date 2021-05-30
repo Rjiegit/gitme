@@ -75,7 +75,7 @@ class GitmeSearchDelegate extends SearchDelegate {
                   "Search Repos",
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
-                    color: Theme.of(context).textSelectionColor,
+                    color: Theme.of(context).textSelectionTheme.selectionColor,
                   ),
                 ),
               ],
@@ -93,7 +93,7 @@ class GitmeSearchDelegate extends SearchDelegate {
                   "Search Users",
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
-                    color: Theme.of(context).textSelectionColor,
+                    color: Theme.of(context).textSelectionTheme.selectionColor,
                   ),
                 ),
               ],

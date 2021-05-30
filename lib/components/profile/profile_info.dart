@@ -32,7 +32,7 @@ class ProfileInfo extends StatelessWidget {
         SizedBox(height: 6.0),
         Text(
           bio.isEmpty ? "No bio yet" : bio,
-          style: _primaryTextTheme.body1,
+          style: _primaryTextTheme.bodyText2,
         ),
         SizedBox(height: 6.0),
         Row(
