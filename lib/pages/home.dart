@@ -5,6 +5,10 @@ import 'package:gitme/pages/activity.dart';
 import 'package:gitme/pages/issue.dart';
 import 'package:gitme/pages/repo.dart';
 import 'package:gitme/pages/search.dart';
+import 'package:gitme/utils.dart';
+
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:hnpwa_client/hnpwa_client.dart';
 
 // 主頁面
 class MainPage extends StatelessWidget {
@@ -61,12 +65,12 @@ class MainPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,
                 ),
-                accountName: Text("Jie"),
-                accountEmail: Text("test@mail.com"),
+                accountName: Text("Bbson Lin"),
+                accountEmail: Text("bobson801104@gmail.com"),
                 currentAccountPicture: GestureDetector(
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(
-                      "https://placekitten.com/200/300",
+                      "https://avatars2.githubusercontent.com/u/18156421?s=400&u=1f91dcf74134827fde071751f95522845223ed6a&v=4",
                     ),
                   ),
                   onTap: () {
@@ -111,11 +115,11 @@ class MainPage extends StatelessWidget {
                     builder: (context) => AlertDialog(
                       content: Text("Are you sure to exit current account."),
                       actions: <Widget>[
-                        TextButton(
+                        FlatButton(
                           child: Text("Cancel"),
                           onPressed: () => Navigator.pop(context),
                         ),
-                        TextButton(
+                        FlatButton(
                           child: Text("OK"),
                           onPressed: () => Navigator.pushNamedAndRemoveUntil(
                               context, "/login", ModalRoute.withName('/')),
@@ -140,41 +144,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List hnTops = [
-    {
-      "by": "jammygit",
-      "descendants": 18,
-      "title": "Pre-industrial workers had a shorter workweek than today's",
-    },
-    {
-      "by": "MaysonL",
-      "descendants": 2,
-      "title": "Help Advance the World with Advanced Linear Algebra",
-    },
-    {
-      "by": "xenocratus",
-      "descendants": 152,
-      "title": "Thoughts on Rust Bloat",
-    },
-  ];
-
-  final List hnNews = [
-    {
-      "by": "rbanffy",
-      "descendants": 0,
-      "title": "Lost Nuclear Material Resurfaces in Maryland",
-    },
-    {
-      "by": "jakeprins",
-      "descendants": 0,
-      "title": "Find books that help you grow",
-    },
-    {
-      "by": "atlasunshrugged",
-      "descendants": 0,
-      "title": "America's Depressing New Culture War",
-    },
-  ];
+  final HnpwaClient hnClient = HnpwaClient();
+  List<FeedItem>? _hnTops;
+  List<FeedItem>? _hnNews;
 
   final List ghTrends = [
     {
@@ -214,6 +186,12 @@ class _HomePageState extends State<HomePage> {
       "forks": 332,
     }
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHNData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -268,35 +246,62 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         onRefresh: () {
-          return Future.delayed(Duration(seconds: 2));
+          return Future.delayed(Duration(seconds: 1)).then((value) {
+            fetchHNData();
+          });
         },
       ),
     );
   }
 
+  Future fetchHNData() async {
+    Feed hnNew = await hnClient.news();
+    Feed hnNewest = await hnClient.newest();
+    setState(() {
+      _hnTops = hnNew.items;
+      _hnNews = hnNewest.items;
+    });
+  }
+
   buildHNTopStories(BuildContext context) {
+    if (_hnTops == null) {
+      return [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(child: CircularProgressIndicator()),
+        )
+      ];
+    }
     return ListTile.divideTiles(
             context: context,
-            tiles: hnTops.map((story) {
+            tiles: _hnTops!.sublist(0, 4).map((item) {
               return ListTile(
-                title: Text(story["title"]),
-                subtitle: Text(
-                    "by ${story["by"]} | ${story["descendants"]} comments"),
-                onTap: () {},
+                title: Text(item.title),
+                subtitle:
+                    Text("by ${item.user} | ${item.commentsCount} comments"),
+                onTap: () => launchURL(item.url),
               );
             }).toList())
         .toList();
   }
 
   buildHNNewStories(BuildContext context) {
+    if (_hnNews == null) {
+      return [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(child: CircularProgressIndicator()),
+        )
+      ];
+    }
     return ListTile.divideTiles(
             context: context,
-            tiles: hnNews.map((story) {
+            tiles: _hnNews!.sublist(0, 4).map((item) {
               return ListTile(
-                title: Text(story["title"]),
-                subtitle: Text(
-                    "by ${story["by"]} | ${story["descendants"]} comments"),
-                onTap: () {},
+                title: Text(item.title),
+                subtitle:
+                    Text("by ${item.user} | ${item.commentsCount} comments"),
+                onTap: () => launchURL(item.url),
               );
             }).toList())
         .toList();
