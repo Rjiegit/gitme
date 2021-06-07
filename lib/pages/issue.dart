@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github/server.dart';
+import 'package:gitme/components/github_tiles.dart';
 import 'package:gitme/services/github_api.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class IssuePage extends StatefulWidget {
   @override
@@ -26,29 +26,16 @@ class _IssuePageState extends State<IssuePage> {
           builder: (BuildContext context, AsyncSnapshot<List<Issue>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
-                if (snapshot.hasError || snapshot.data!.isEmpty) {
+                if (snapshot.hasError) {
                   return Center(child: Text("No Data"));
                 }
                 return ListView.separated(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final now = DateTime.now();
-                    final difference =
-                        now.difference(snapshot.data![index].createdAt);
-                    var createTimeAgo =
-                        timeago.format(now.subtract(difference));
-
-                    return ListTile(
-                      dense: true,
-                      leading: CircleAvatar(
-                        radius: 18.0,
-                        backgroundImage:
-                            NetworkImage(snapshot.data![index].user.avatarUrl),
-                      ),
-                      title: Text(snapshot.data![index].title),
-                      subtitle: Text(createTimeAgo),
-                      trailing: Icon(Icons.error_outline),
-                      onTap: () {},
+                    return IssueTile(
+                      userAvatarUrl: snapshot.data![index].user.avatarUrl,
+                      title: snapshot.data![index].title,
+                      createTime: snapshot.data![index].createdAt,
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) =>
@@ -62,7 +49,7 @@ class _IssuePageState extends State<IssuePage> {
           },
         ),
         onRefresh: () async {
-          await Future.delayed(Duration(seconds: 1));
+          await Future.delayed(Duration(microseconds: 100));
           setState(() {
             issueList = fetchIssues();
           });
