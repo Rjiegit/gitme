@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gitme/pages/home.dart';
 import "package:gitme/pages/login.dart";
 import 'package:gitme/pages/profile/profile.dart';
@@ -9,7 +10,8 @@ import 'package:gitme/routes.dart';
 import 'pages/about/about.dart';
 import 'pages/setting/setting_language.dart';
 
-void main() {
+Future<void> main() async {
+  await DotEnv().load('.env');
   runApp(Gitme());
 }
 
