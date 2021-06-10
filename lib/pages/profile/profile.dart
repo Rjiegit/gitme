@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:gitme/components/profile/profile_info.dart';
 import 'package:gitme/pages/profile/follow.dart';
+import 'package:gitme/pages/profile/start.dart';
 import 'package:gitme/pages/repo.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -43,9 +44,9 @@ class ProfilePage extends StatelessWidget {
           body: TabBarView(
             children: [
               RepoPage(),
-              RepoPage(),
-              FollowPage(),
-              FollowPage(),
+              StarRepoPage(),
+              FollowerPage(),
+              FollowingPage(),
             ],
           ),
         ),

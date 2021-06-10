@@ -6,7 +6,6 @@ import 'package:gitme/pages/issue.dart';
 import 'package:gitme/pages/repo.dart';
 import 'package:gitme/pages/search.dart';
 import 'package:gitme/utils.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:hnpwa_client/hnpwa_client.dart';
 
@@ -65,12 +64,12 @@ class MainPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,
                 ),
-                accountName: Text("Bbson Lin"),
-                accountEmail: Text("bobson801104@gmail.com"),
+                accountName: Text("Jie"),
+                accountEmail: Text("test@mail.com"),
                 currentAccountPicture: GestureDetector(
                   child: CircleAvatar(
                     backgroundImage: NetworkImage(
-                      "https://avatars2.githubusercontent.com/u/18156421?s=400&u=1f91dcf74134827fde071751f95522845223ed6a&v=4",
+                      "https://placekitten.com/200/300",
                     ),
                   ),
                   onTap: () {
@@ -115,11 +114,11 @@ class MainPage extends StatelessWidget {
                     builder: (context) => AlertDialog(
                       content: Text("Are you sure to exit current account."),
                       actions: <Widget>[
-                        FlatButton(
+                        TextButton(
                           child: Text("Cancel"),
                           onPressed: () => Navigator.pop(context),
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Text("OK"),
                           onPressed: () => Navigator.pushNamedAndRemoveUntil(
                               context, "/login", ModalRoute.withName('/')),
