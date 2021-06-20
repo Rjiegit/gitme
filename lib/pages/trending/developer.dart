@@ -52,7 +52,7 @@ class _TrendingDevelopersState extends State<TrendingDevelopers> {
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(height: 0.0),
+                        const Divider(height: 0.0),
                   );
                 } else {
                   return Center(child: Text("No Data"));
