@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:gitme/components/github_language_label.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class RepoTile extends StatelessWidget {
@@ -30,7 +31,9 @@ class RepoTile extends StatelessWidget {
           Text("★ $stars"),
         ],
       ),
-      trailing: language != null ? Text(language!) : SizedBox(),
+      trailing: GithubLanguageLabel(
+        language: language,
+      ),
       contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       onTap: () {},
     );
@@ -40,18 +43,18 @@ class RepoTile extends StatelessWidget {
 class UserTile extends StatelessWidget {
   const UserTile({
     Key? key,
-    this.avatarUrl = "",
+    this.avatarUrl,
     required this.name,
   }) : super(key: key);
 
-  final String avatarUrl;
+  final String? avatarUrl;
   final String name;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(avatarUrl),
+        backgroundImage: NetworkImage(avatarUrl!),
         radius: 16.0,
       ),
       title: Text(name),

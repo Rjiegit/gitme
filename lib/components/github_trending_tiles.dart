@@ -1,27 +1,27 @@
 import "package:flutter/material.dart";
+import 'package:gitme/components/github_language_label.dart';
 import 'package:gitme/services/models/developer.dart';
 import 'package:gitme/services/models/project.dart';
-import 'package:gitme/utils.dart';
 
 class ProjectTile extends StatelessWidget {
   const ProjectTile({
     Key? key,
     required this.name,
-    this.description = "",
+    this.description,
     required this.stars,
     required this.currentStars,
-    this.language = "",
-    this.languageColor = "",
+    this.language,
+    this.languageColor,
     required this.builtBy,
     required this.onPressed,
   }) : super(key: key);
 
   final String name;
-  final String description;
+  final String? description;
   final int stars;
   final int currentStars;
-  final String language;
-  final String languageColor;
+  final String? language;
+  final String? languageColor;
   final List<BuiltBy> builtBy;
   final Function onPressed;
 
@@ -36,7 +36,7 @@ class ProjectTile extends StatelessWidget {
           Text("★ $currentStars stars today"),
           SizedBox(height: 8.0),
           description != ""
-              ? Text(description)
+              ? Text(description!)
               : Text("No description provided."),
           SizedBox(height: 8.0),
           Row(
@@ -48,19 +48,10 @@ class ProjectTile extends StatelessWidget {
           )
         ],
       ),
-      trailing: language != null
-          ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  "● ",
-                  style: TextStyle(
-                      color: hexToColor(languageColor), fontSize: 24.0),
-                ),
-                Text(language),
-              ],
-            )
-          : SizedBox(),
+      trailing: GithubLanguageLabel(
+        language: language,
+        languageHexColor: languageColor,
+      ),
       contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       onTap: onPressed(),
     );
@@ -89,14 +80,14 @@ class DeveloperTile extends StatelessWidget {
     Key? key,
     required this.avatarUrl,
     required this.name,
-    this.nickName = "",
+    this.nickName,
     required this.repo,
     required this.onPressed,
   }) : super(key: key);
 
   final String avatarUrl;
   final String name;
-  final String nickName;
+  final String? nickName;
   final Repo repo;
   final Function onPressed;
 
@@ -111,7 +102,7 @@ class DeveloperTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(name),
-          Text(nickName, style: Theme.of(context).textTheme.caption),
+          Text(nickName!, style: Theme.of(context).textTheme.caption),
         ],
       ),
       subtitle: Column(

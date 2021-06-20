@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gitme/components/circle_avatar_button.dart';
 import 'package:gitme/components/drawer_tile.dart';
+import 'package:gitme/components/github_language_label.dart';
 import 'package:gitme/pages/activity.dart';
 import 'package:gitme/pages/issue.dart';
 import 'package:gitme/pages/repo.dart';
 import 'package:gitme/pages/search.dart';
+import 'package:gitme/services/github_trending_api.dart';
+import 'package:gitme/services/models/project.dart';
 import 'package:gitme/utils.dart';
-// import 'package:hnpwa_client/hnpwa_client.dart';
 
 // 主頁面
 class MainPage extends StatelessWidget {
@@ -71,9 +73,7 @@ class MainPage extends StatelessWidget {
                       "https://placekitten.com/200/300",
                     ),
                   ),
-                  onTap: () {
-                    Navigator.of(context).pushNamed("/profile");
-                  },
+                  onTap: () => Navigator.of(context).pushNamed("/profile"),
                 ),
                 otherAccountsPictures: <Widget>[
                   IconButton(
@@ -85,23 +85,17 @@ class MainPage extends StatelessWidget {
               DrawerTile(
                 icon: Icon(Icons.trending_up),
                 text: "Trending",
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/trending");
-                },
+                onPressed: () => Navigator.of(context).pushNamed("/trending"),
               ),
               DrawerTile(
                 icon: Icon(Icons.settings),
                 text: "Setting",
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/setting");
-                },
+                onPressed: () => Navigator.of(context).pushNamed("/setting"),
               ),
               DrawerTile(
                 icon: Icon(Icons.info),
                 text: "About",
-                onPressed: () {
-                  Navigator.of(context).pushNamed("/about");
-                },
+                onPressed: () => Navigator.of(context).pushNamed("/about"),
               ),
               DrawerTile(
                 icon: Icon(Icons.power_settings_new),
@@ -147,45 +141,7 @@ class _HomePageState extends State<HomePage> {
   // List<FeedItem>? _hnNews;
   List? _hnTops;
   List? _hnNews;
-
-  final List ghTrends = [
-    {
-      "author": "lumen",
-      "name": "lumen",
-      "avatar": "https://github.com/lumen.png",
-      "url": "https://github.com/lumen/lumen",
-      "description":
-          "An alternative BEAM implementation, designed for WebAssembly",
-      "language": "Rust",
-      "languageColor": "#dea584",
-      "stars": 850,
-      "forks": 21,
-    },
-    {
-      "author": "outline",
-      "name": "outline",
-      "avatar": "https://github.com/outline.png",
-      "url": "https://github.com/outline/outline",
-      "description":
-          "The fastest wiki and knowledge base for growing teams. Beautiful, feature rich, markdown compatible and open source.",
-      "language": "JavaScript",
-      "languageColor": "#f1e05a",
-      "stars": 5342,
-      "forks": 329,
-    },
-    {
-      "author": "tophubs",
-      "name": "TopList",
-      "avatar": "https://github.com/tophubs.png",
-      "url": "https://github.com/tophubs/TopList",
-      "description":
-          "今日热榜，一个获取各大热门网站热门头条的聚合网站，使用Go语言编写，多协程异步快速抓取信息，预览:https://www.printf520.com/hot.html",
-      "language": "Go",
-      "languageColor": "#00ADD8",
-      "stars": 1960,
-      "forks": 332,
-    }
-  ];
+  List? _ghTrends;
 
   @override
   void initState() {
@@ -267,6 +223,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future fetchGHTrends() async {
+    List<Project> ghTrends = await githubTrendingClient.listProjects();
+    if (this.mounted) {
+      setState(() {
+        _ghTrends = ghTrends;
+      });
+    }
+  }
+
   buildHNTopStories(BuildContext context) {
     if (_hnTops == null) {
       return [
@@ -312,16 +277,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   buildGHTrends(BuildContext context) {
-    return ListTile.divideTiles(
-            context: context,
-            tiles: ghTrends.map((repo) {
-              return ListTile(
-                title: Text("${repo["author"]} / ${repo["name"]}"),
-                subtitle: Text(
-                    "${repo["language"]}   ${repo["stars"]}   ${repo["forks"]}"),
-                onTap: () {},
-              );
-            }).toList())
-        .toList();
+    if (_ghTrends == null) {
+      return [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(child: CircularProgressIndicator()),
+        )
+      ];
+    } else {
+      return ListTile.divideTiles(
+              context: context,
+              tiles: _ghTrends!.sublist(0, 4).map((project) {
+                return ListTile(
+                  title: Text("${project.fullName}"),
+                  subtitle: Row(
+                    children: <Widget>[
+                      GithubLanguageLabel(
+                        language: project.language,
+                        languageHexColor: project.languageColor,
+                      ),
+                      SizedBox(width: 16.0),
+                      Text("★ ${project.stars}"),
+                    ],
+                  ),
+                  onTap: () {},
+                );
+              }).toList())
+          .toList();
+    }
   }
 }
