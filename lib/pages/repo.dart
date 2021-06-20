@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:github/server.dart';
+import 'package:github/github.dart';
 import 'package:gitme/components/github_tiles.dart';
 import 'package:gitme/services/github_api.dart';
 
@@ -36,7 +36,7 @@ class _RepoPageState extends State<RepoPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return RepoTile(
                       name:
-                          "${snapshot.data![index].owner.login}/${snapshot.data![index].name}",
+                          "${snapshot.data![index].owner!.login}/${snapshot.data![index].name}",
                       description: snapshot.data![index].description,
                       stars: snapshot.data![index].stargazersCount,
                       language: snapshot.data![index].language,
@@ -64,6 +64,6 @@ class _RepoPageState extends State<RepoPage> {
 
   Future<List<Repository>> fetchRepos() async {
     CurrentUser user = await githubClient.users.getCurrentUser();
-    return githubClient.repositories.listUserRepositories(user.login).toList();
+    return githubClient.repositories.listUserRepositories(user.login!).toList();
   }
 }

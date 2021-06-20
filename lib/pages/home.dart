@@ -6,8 +6,7 @@ import 'package:gitme/pages/issue.dart';
 import 'package:gitme/pages/repo.dart';
 import 'package:gitme/pages/search.dart';
 import 'package:gitme/utils.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:hnpwa_client/hnpwa_client.dart';
+// import 'package:hnpwa_client/hnpwa_client.dart';
 
 // 主頁面
 class MainPage extends StatelessWidget {
@@ -143,9 +142,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final HnpwaClient hnClient = HnpwaClient();
-  List<FeedItem>? _hnTops;
-  List<FeedItem>? _hnNews;
+  // final HnpwaClient hnClient = HnpwaClient();
+  // List<FeedItem>? _hnTops;
+  // List<FeedItem>? _hnNews;
+  List? _hnTops;
+  List? _hnNews;
 
   final List ghTrends = [
     {
@@ -254,11 +255,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future fetchHNData() async {
-    Feed hnNew = await hnClient.news();
-    Feed hnNewest = await hnClient.newest();
+    // Feed hnNew = await hnClient.news();
+    // Feed hnNewest = await hnClient.newest();
+    // setState(() {
+    //   _hnTops = hnNew.items;
+    //   _hnNews = hnNewest.items;
+    // });
     setState(() {
-      _hnTops = hnNew.items;
-      _hnNews = hnNewest.items;
+      _hnTops = null;
+      _hnNews = null;
     });
   }
 

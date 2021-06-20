@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:github/server.dart';
+import 'package:github/github.dart';
 import 'package:gitme/components/github_tiles.dart';
 import 'package:gitme/services/github_api.dart';
 
@@ -61,7 +61,7 @@ class _FollowerPageState extends State<FollowerPage> {
 
   Future<List<User>> fetchFollowers() async {
     CurrentUser user = await githubClient.users.getCurrentUser();
-    return githubClient.users.listUserFollowers(user.login).toList();
+    return githubClient.users.listUserFollowers(user.login!).toList();
   }
 }
 
@@ -94,8 +94,8 @@ class _FollowingPageState extends State<FollowingPage> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (BuildContext context, int index) {
                       return UserTile(
-                        avatarUrl: snapshot.data![index].avatarUrl,
-                        name: snapshot.data![index].login,
+                        avatarUrl: snapshot.data![index].avatarUrl!,
+                        name: snapshot.data![index].login!,
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) =>

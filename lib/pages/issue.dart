@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:github/server.dart';
+import 'package:github/github.dart';
 import 'package:gitme/components/github_tiles.dart';
 import 'package:gitme/services/github_api.dart';
 
@@ -33,9 +33,9 @@ class _IssuePageState extends State<IssuePage> {
                   itemCount: snapshot.data!.length,
                   itemBuilder: (BuildContext context, int index) {
                     return IssueTile(
-                      userAvatarUrl: snapshot.data![index].user.avatarUrl,
+                      userAvatarUrl: snapshot.data![index].user!.avatarUrl!,
                       title: snapshot.data![index].title,
-                      createTime: snapshot.data![index].createdAt,
+                      createTime: snapshot.data![index].createdAt!,
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) =>

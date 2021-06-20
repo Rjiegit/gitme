@@ -11,7 +11,7 @@ import 'pages/about/about.dart';
 import 'pages/setting/setting_language.dart';
 
 Future<void> main() async {
-  await DotEnv().load('.env');
+  await dotenv.load(fileName: ".env");
   runApp(Gitme());
 }
 

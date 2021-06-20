@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:github/server.dart';
+import 'package:github/github.dart';
 import 'package:gitme/components/github_tiles.dart';
 import 'package:gitme/services/github_api.dart';
 
