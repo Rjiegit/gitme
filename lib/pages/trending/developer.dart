@@ -1,9 +1,17 @@
 import "package:flutter/material.dart";
 import 'package:gitme/components/github_trending_tiles.dart';
+import 'package:gitme/pages/trending/trending.dart';
 import 'package:gitme/services/github_trending_api.dart';
 import 'package:gitme/services/models/developer.dart';
 
 class TrendingDevelopers extends StatefulWidget {
+  const TrendingDevelopers({
+    Key? key,
+    required this.dateRange,
+  }) : super(key: key);
+
+  final TrendingDateRange dateRange;
+
   @override
   _TrendingDevelopersState createState() => _TrendingDevelopersState();
 }
@@ -14,11 +22,14 @@ class _TrendingDevelopersState extends State<TrendingDevelopers> {
   @override
   void initState() {
     super.initState();
-    developerList = githubTrendingClient.listDevelopers();
   }
 
   @override
   Widget build(BuildContext context) {
+    developerList = githubTrendingClient.listDevelopers(
+      since: "${widget.dateRange.toString().split('.')[1]}",
+    );
+
     return Scrollbar(
       child: RefreshIndicator(
         child: FutureBuilder(
@@ -41,11 +52,9 @@ class _TrendingDevelopersState extends State<TrendingDevelopers> {
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(height: 0.0),
+                    const Divider(height: 0.0),
                   );
                 } else {
-                  print(snapshot.error);
-
                   return Center(child: Text("No Data"));
                 }
               case ConnectionState.none:
@@ -57,7 +66,9 @@ class _TrendingDevelopersState extends State<TrendingDevelopers> {
         ),
         onRefresh: () async {
           setState(() {
-            developerList = githubTrendingClient.listDevelopers();
+            developerList = githubTrendingClient.listDevelopers(
+              since: "${widget.dateRange.toString().split('.')[1]}",
+            );
           });
         },
       ),
