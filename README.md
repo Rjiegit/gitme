@@ -1,16 +1,13 @@
 # gitme
 
-A new Flutter project.
+參考 gitme 的開發流程，藉此來學習 flutter
 
-## Getting Started
+調整如下
+* 使用 Flutter 2.2.0 開發
+* Migrate to null safety
+* 更新相依套件
 
-This project is a starting point for a Flutter application.
+參考自:
+https://ithelp.ithome.com.tw/articles/10213406
+https://github.com/flutterchina/gitme
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
