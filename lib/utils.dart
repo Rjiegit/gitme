@@ -13,11 +13,11 @@ Future<String?> searchLanguageColorHexCode(String? language) async {
       await rootBundle.loadString("assets/data/github-colors.json");
   var githubColorsMap = jsonDecode(githubColors);
 
-  if (language != null) {
-    return githubColorsMap[language]["color"];
-  } else {
+  if (githubColorsMap[language] == null) {
     return null;
   }
+
+  return githubColorsMap[language]["color"];
 }
 
 Future launchURL(url) async {
