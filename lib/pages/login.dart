@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_hud/flutter_progress_hud.dart';
+import 'package:github/github.dart';
+import 'package:gitme/services/github_api.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,6 +10,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                   child: TextFormField(
+                    controller: usernameController,
                     decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.person),
                       labelText: "Name *",
@@ -37,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                   child: TextFormField(
+                    controller: passwordController,
                     obscureText: _obscureText,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.lock),
@@ -66,7 +72,13 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       final progress = ProgressHUD.of(context);
                       progress?.showWithText("Loading...");
-                      Future.delayed(Duration(seconds: 1), () {
+                      Future.delayed(Duration(milliseconds: 100), () async {
+                        try {
+                          GitHub githubClient = getGithubApiClientByToken();
+                          await githubClient.users.getCurrentUser();
+                        } catch (e) {
+                          print(e);
+                        }
                         Navigator.pushReplacementNamed(context, "/home");
                         progress?.dismiss();
                       });
