@@ -136,9 +136,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // final HnpwaClient hnClient = HnpwaClient();
-  // List<FeedItem>? _hnTops;
-  // List<FeedItem>? _hnNews;
   List? _hnTops;
   List? _hnNews;
   List? _ghTrends;
@@ -211,12 +208,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future fetchHNData() async {
-    // Feed hnNew = await hnClient.news();
-    // Feed hnNewest = await hnClient.newest();
-    // setState(() {
-    //   _hnTops = hnNew.items;
-    //   _hnNews = hnNewest.items;
-    // });
     setState(() {
       _hnTops = null;
       _hnNews = null;
@@ -234,12 +225,7 @@ class _HomePageState extends State<HomePage> {
 
   buildHNTopStories(BuildContext context) {
     if (_hnTops == null) {
-      return [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(child: CircularProgressIndicator()),
-        )
-      ];
+      return showNoDataMessage();
     }
     return ListTile.divideTiles(
             context: context,
@@ -256,12 +242,7 @@ class _HomePageState extends State<HomePage> {
 
   buildHNNewStories(BuildContext context) {
     if (_hnNews == null) {
-      return [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(child: CircularProgressIndicator()),
-        )
-      ];
+      return showNoDataMessage();
     }
     return ListTile.divideTiles(
             context: context,
@@ -278,12 +259,7 @@ class _HomePageState extends State<HomePage> {
 
   buildGHTrends(BuildContext context) {
     if (_ghTrends == null) {
-      return [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(child: CircularProgressIndicator()),
-        )
-      ];
+      return showNoDataMessage();
     } else {
       return ListTile.divideTiles(
               context: context,
@@ -305,5 +281,14 @@ class _HomePageState extends State<HomePage> {
               }).toList())
           .toList();
     }
+  }
+
+  List<Padding> showNoDataMessage() {
+    return [
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text('No Data.'),
+      )
+    ];
   }
 }
