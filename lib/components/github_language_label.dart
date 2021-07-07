@@ -22,9 +22,11 @@ class _GithubLanguageLabelState extends State<GithubLanguageLabel> {
   void initState() {
     super.initState();
     searchLanguageColorHexCode(widget.language).then((labelHexCode) {
-      setState(() {
-        _labelHexCode = labelHexCode;
-      });
+      if (mounted) {
+        setState(() {
+          _labelHexCode = labelHexCode;
+        });
+      }
     });
   }
 

@@ -8,7 +8,9 @@ import 'package:gitme/pages/repo.dart';
 import 'package:gitme/pages/search.dart';
 import 'package:gitme/services/github_trending_api.dart';
 import 'package:gitme/services/models/project.dart';
+import 'package:gitme/stores/account.dart';
 import 'package:gitme/utils.dart';
+import 'package:provider/provider.dart';
 
 // 主頁面
 class MainPage extends StatelessWidget {
@@ -16,6 +18,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var account = Provider.of<AccountModel>(context);
+
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -23,9 +27,7 @@ class MainPage extends StatelessWidget {
         appBar: AppBar(
           titleSpacing: 0.0,
           leading: CircleAvatarButton(
-            avatarImage: NetworkImage(
-              "https://placekitten.com/200/300",
-            ),
+            avatarImage: NetworkImage(account.profile.avatarUrl!),
             onPressed: () => _scaffoldKey.currentState!.openDrawer(),
           ),
           title: TabBar(
@@ -65,13 +67,11 @@ class MainPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,
                 ),
-                accountName: Text("Jie"),
-                accountEmail: Text("test@mail.com"),
+                accountName: Text(account.profile.login ?? ''),
+                accountEmail: Text(account.profile.email ?? ''),
                 currentAccountPicture: GestureDetector(
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      "https://placekitten.com/200/300",
-                    ),
+                    backgroundImage: NetworkImage(account.profile.avatarUrl!),
                   ),
                   onTap: () => Navigator.of(context).pushNamed("/profile"),
                 ),

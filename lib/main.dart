@@ -6,13 +6,23 @@ import 'package:gitme/pages/profile/profile.dart';
 import 'package:gitme/pages/setting/setting.dart';
 import 'package:gitme/pages/trending/trending.dart';
 import 'package:gitme/routes.dart';
+import 'package:gitme/stores/account.dart';
+import 'package:provider/provider.dart';
 
 import 'pages/about/about.dart';
 import 'pages/setting/setting_language.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
-  runApp(Gitme());
+
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (BuildContext context) => AccountModel(),
+      ),
+    ],
+    child: Gitme(),
+  ));
 }
 
 class Gitme extends StatelessWidget {
