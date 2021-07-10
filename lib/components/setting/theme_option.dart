@@ -1,12 +1,11 @@
 import "package:flutter/material.dart";
 
 class ThemeOption extends StatelessWidget {
-  const ThemeOption({
-    Key? key,
-    required this.color,
-  }) : super(key: key);
+  const ThemeOption({Key? key, required this.color, this.onPress})
+      : super(key: key);
 
   final Color color;
+  final Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class ThemeOption extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {},
+      onTap: onPress,
     );
   }
 }

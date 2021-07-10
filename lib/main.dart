@@ -7,6 +7,7 @@ import 'package:gitme/pages/setting/setting.dart';
 import 'package:gitme/pages/trending/trending.dart';
 import 'package:gitme/routes.dart';
 import 'package:gitme/stores/account.dart';
+import 'package:gitme/stores/setting.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/about/about.dart';
@@ -17,9 +18,8 @@ Future<void> main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(
-        create: (BuildContext context) => AccountModel(),
-      ),
+      ChangeNotifierProvider(create: (BuildContext context) => AccountModel()),
+      ChangeNotifierProvider(create: (BuildContext context) => SettingModel())
     ],
     child: Gitme(),
   ));
@@ -29,15 +29,11 @@ class Gitme extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var setting = Provider.of<SettingModel>(context);
+
     return MaterialApp(
       title: "Gitme",
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-        buttonTheme: ButtonThemeData(
-          buttonColor: Colors.blueGrey,
-          textTheme: ButtonTextTheme.primary,
-        ),
-      ),
+      theme: setting.theme,
       routes: {
         GitmeRoutes.login: (context) => LoginPage(),
         GitmeRoutes.home: (context) => MainPage(),
