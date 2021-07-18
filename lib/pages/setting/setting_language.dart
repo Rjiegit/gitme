@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
-
-enum Language { traditionalChinese, simplifiedChinese, english }
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:gitme/constants/languages.dart';
+import 'package:gitme/stores/setting.dart';
+import 'package:provider/provider.dart';
 
 class SettingLanguagePage extends StatefulWidget {
   @override
@@ -8,47 +10,45 @@ class SettingLanguagePage extends StatefulWidget {
 }
 
 class _SettingLanguagePageState extends State<SettingLanguagePage> {
-  Language _language = Language.english;
+  late SettingModel setting;
 
   @override
   Widget build(BuildContext context) {
+    setting = Provider.of<SettingModel>(context);
+
     return Scaffold(
         appBar: AppBar(
-          title: Text("Language"),
+          title: Text(
+            FlutterI18n.translate(context, "setting.language"),
+          ),
         ),
         body: ListView(
           children: <Widget>[
             RadioListTile(
-              title: Text("繁體中文"),
-              value: Language.traditionalChinese,
-              groupValue: _language,
-              onChanged: (Language? value) {
-                setState(() {
-                  _language = Language.traditionalChinese;
-                });
-              },
-            ),
-            RadioListTile(
-              title: Text("简体中文"),
-              value: Language.simplifiedChinese,
-              groupValue: _language,
-              onChanged: (Language? value) {
-                setState(() {
-                  _language = Language.simplifiedChinese;
-                });
-              },
-            ),
-            RadioListTile(
               title: Text("English"),
               value: Language.english,
-              groupValue: _language,
-              onChanged: (Language? value) {
-                setState(() {
-                  _language = Language.english;
-                });
-              },
+              groupValue: setting.language,
+              onChanged: _changeLang,
             ),
+            RadioListTile(
+                title: Text("繁體中文"),
+                value: Language.traditionalChinese,
+                groupValue: setting.language,
+                onChanged: _changeLang),
           ],
         ));
+  }
+
+  Future<void> _changeLang(Language? changedLang) async {
+    setting.changeLanguage(changedLang!);
+    await FlutterI18n.refresh(context, Locale('zh', 'TW'));
+
+    // showNotify(
+    //   message: FlutterI18n.translate(
+    //     context,
+    //     "setting.switchLangMsg",
+    //     translationParams: {"lang": langLocaleMap[changedLang].toString()},
+    //   ),
+    // );
   }
 }

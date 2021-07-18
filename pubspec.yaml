@@ -38,6 +38,7 @@ dependencies:
   fluttertoast: ^8.0.7
   provider: ^5.0.0
   badges: ^2.0.1
+  flutter_i18n: ^0.22.4
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +61,7 @@ flutter:
   assets:
     - assets/images/
     - assets/data/
+    - assets/i18n/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

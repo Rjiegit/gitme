@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:flutter_i18n/flutter_i18n_delegate.dart';
+import 'package:flutter_i18n/loaders/decoders/json_decode_strategy.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gitme/pages/home.dart';
 import "package:gitme/pages/login.dart";
 import 'package:gitme/pages/profile/profile.dart';
@@ -16,16 +20,30 @@ import 'pages/setting/setting_language.dart';
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
 
+  final FlutterI18nDelegate flutterI18nDelegate = FlutterI18nDelegate(
+      translationLoader: FileTranslationLoader(
+          useCountryCode: true,
+          fallbackFile: "en_US",
+          basePath: "assets/i18n",
+          forcedLocale: Locale("en", "US"),
+          decodeStrategies: [JsonDecodeStrategy()]));
+
+  await flutterI18nDelegate.load(Locale("en", "US"));
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (BuildContext context) => AccountModel()),
       ChangeNotifierProvider(create: (BuildContext context) => SettingModel())
     ],
-    child: Gitme(),
+    child: Gitme(flutterI18nDelegate),
   ));
 }
 
 class Gitme extends StatelessWidget {
+  final FlutterI18nDelegate flutterI18nDelegate;
+
+  Gitme(this.flutterI18nDelegate);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -51,6 +69,11 @@ class Gitme extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => LoginPage());
         }
       },
+      localizationsDelegates: [
+        flutterI18nDelegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
     );
   }
 }
